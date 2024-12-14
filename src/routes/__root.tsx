@@ -1,4 +1,4 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Link, NotFoundRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRoute({
@@ -18,4 +18,5 @@ export const Route = createRootRoute({
       <TanStackRouterDevtools />
     </>
   ),
+  notFoundComponent: () => <div>Hello this page you are trying to go to does not exist.please try again.</div>
 })
