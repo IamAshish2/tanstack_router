@@ -23,6 +23,9 @@ const IndexLazyImport = createFileRoute('/')()
 const AuthIndexLazyImport = createFileRoute('/auth/')()
 const ProductIdIndexLazyImport = createFileRoute('/product/$id/')()
 const AuthUserIndexLazyImport = createFileRoute('/auth/user/')()
+const ProductIdDescriptionLazyImport = createFileRoute(
+  '/product/$id/description',
+)()
 const AuthUserLoginLazyImport = createFileRoute('/auth/user/login')()
 
 // Create/Update Routes
@@ -71,6 +74,14 @@ const AuthUserIndexLazyRoute = AuthUserIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/auth/user/index.lazy').then((d) => d.Route),
+)
+
+const ProductIdDescriptionLazyRoute = ProductIdDescriptionLazyImport.update({
+  id: '/product/$id/description',
+  path: '/product/$id/description',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/product/$id/description.lazy').then((d) => d.Route),
 )
 
 const AuthUserLoginLazyRoute = AuthUserLoginLazyImport.update({
@@ -127,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserLoginLazyImport
       parentRoute: typeof rootRoute
     }
+    '/product/$id/description': {
+      id: '/product/$id/description'
+      path: '/product/$id/description'
+      fullPath: '/product/$id/description'
+      preLoaderRoute: typeof ProductIdDescriptionLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/user/': {
       id: '/auth/user/'
       path: '/auth/user'
@@ -153,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/product/$idlazy': typeof ProductIdlazyRoute
   '/auth': typeof AuthIndexLazyRoute
   '/auth/user/login': typeof AuthUserLoginLazyRoute
+  '/product/$id/description': typeof ProductIdDescriptionLazyRoute
   '/auth/user': typeof AuthUserIndexLazyRoute
   '/product/$id': typeof ProductIdIndexLazyRoute
 }
@@ -164,6 +183,7 @@ export interface FileRoutesByTo {
   '/product/$idlazy': typeof ProductIdlazyRoute
   '/auth': typeof AuthIndexLazyRoute
   '/auth/user/login': typeof AuthUserLoginLazyRoute
+  '/product/$id/description': typeof ProductIdDescriptionLazyRoute
   '/auth/user': typeof AuthUserIndexLazyRoute
   '/product/$id': typeof ProductIdIndexLazyRoute
 }
@@ -176,6 +196,7 @@ export interface FileRoutesById {
   '/product/$idlazy': typeof ProductIdlazyRoute
   '/auth/': typeof AuthIndexLazyRoute
   '/auth/user/login': typeof AuthUserLoginLazyRoute
+  '/product/$id/description': typeof ProductIdDescriptionLazyRoute
   '/auth/user/': typeof AuthUserIndexLazyRoute
   '/product/$id/': typeof ProductIdIndexLazyRoute
 }
@@ -189,6 +210,7 @@ export interface FileRouteTypes {
     | '/product/$idlazy'
     | '/auth'
     | '/auth/user/login'
+    | '/product/$id/description'
     | '/auth/user'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -199,6 +221,7 @@ export interface FileRouteTypes {
     | '/product/$idlazy'
     | '/auth'
     | '/auth/user/login'
+    | '/product/$id/description'
     | '/auth/user'
     | '/product/$id'
   id:
@@ -209,6 +232,7 @@ export interface FileRouteTypes {
     | '/product/$idlazy'
     | '/auth/'
     | '/auth/user/login'
+    | '/product/$id/description'
     | '/auth/user/'
     | '/product/$id/'
   fileRoutesById: FileRoutesById
@@ -221,6 +245,7 @@ export interface RootRouteChildren {
   ProductIdlazyRoute: typeof ProductIdlazyRoute
   AuthIndexLazyRoute: typeof AuthIndexLazyRoute
   AuthUserLoginLazyRoute: typeof AuthUserLoginLazyRoute
+  ProductIdDescriptionLazyRoute: typeof ProductIdDescriptionLazyRoute
   AuthUserIndexLazyRoute: typeof AuthUserIndexLazyRoute
   ProductIdIndexLazyRoute: typeof ProductIdIndexLazyRoute
 }
@@ -232,6 +257,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductIdlazyRoute: ProductIdlazyRoute,
   AuthIndexLazyRoute: AuthIndexLazyRoute,
   AuthUserLoginLazyRoute: AuthUserLoginLazyRoute,
+  ProductIdDescriptionLazyRoute: ProductIdDescriptionLazyRoute,
   AuthUserIndexLazyRoute: AuthUserIndexLazyRoute,
   ProductIdIndexLazyRoute: ProductIdIndexLazyRoute,
 }
@@ -252,6 +278,7 @@ export const routeTree = rootRoute
         "/product/$idlazy",
         "/auth/",
         "/auth/user/login",
+        "/product/$id/description",
         "/auth/user/",
         "/product/$id/"
       ]
@@ -273,6 +300,9 @@ export const routeTree = rootRoute
     },
     "/auth/user/login": {
       "filePath": "auth/user/login.lazy.tsx"
+    },
+    "/product/$id/description": {
+      "filePath": "product/$id/description.lazy.tsx"
     },
     "/auth/user/": {
       "filePath": "auth/user/index.lazy.tsx"
